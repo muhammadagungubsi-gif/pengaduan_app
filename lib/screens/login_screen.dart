@@ -27,28 +27,29 @@ class _LoginScreenState extends State<LoginScreen> {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
-      if (email.isEmpty || password.isEmpty) {
-        setState(() {
-          errorMessage = 'Email dan Password wajib diisi';
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('⚠️ Email dan Password wajib diisi'),
-            backgroundColor: Colors.orange,
-            duration: Duration(seconds: 2),
-          ),
-        );
-        return;
-      }    setState(() {
+    if (email.isEmpty || password.isEmpty) {
+      setState(() {
+        errorMessage = 'Email dan Password wajib diisi';
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚠️ Email dan Password wajib diisi'),
+          backgroundColor: Colors.orange,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+    setState(() {
       isLoading = true;
       errorMessage = '';
     });
 
     try {
       // Fetch users from API
-      final response = await http.get(
-        Uri.parse('$baseUrl/users?email=$email'),
-      ).timeout(const Duration(seconds: 10));
+      final response = await http
+          .get(Uri.parse('$baseUrl/users?email=$email'))
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         List users = json.decode(response.body);
@@ -77,10 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => UserScreen(
-                      userId: userId,
-                      userName: userName,
-                    ),
+                    builder: (context) =>
+                        UserScreen(userId: userId, userName: userName),
                   ),
                 );
               }
@@ -108,7 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
           });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('❌ Gagal terhubung ke server (${response.statusCode})'),
+              content: Text(
+                '❌ Gagal terhubung ke server (${response.statusCode})',
+              ),
               backgroundColor: Colors.red,
               duration: const Duration(seconds: 3),
             ),
@@ -188,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    'HONDA WINGS',
+                    'HONDA WINGS UWAW',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -196,16 +197,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Aplikasi Kepuasan Pelanggan',
-                  ),
+                  const Text('Aplikasi Kepuasan Pelanggan'),
                   const SizedBox(height: 24),
                   if (errorMessage.isNotEmpty)
                     Text(
                       errorMessage,
-                      style: const TextStyle(
-                        color: Colors.red,
-                      ),
+                      style: const TextStyle(color: Colors.red),
                     ),
                   const SizedBox(height: 12),
                   TextField(
@@ -234,17 +231,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFB71C1C),
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                       child: isLoading
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : const Text(
-                              'LOGIN',
-                            ),
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text('LOGIN'),
                     ),
                   ),
                   const SizedBox(height: 16),
